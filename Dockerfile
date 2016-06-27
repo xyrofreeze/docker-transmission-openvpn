@@ -10,9 +10,11 @@ VOLUME /config
 
 # Update packages and install software
 RUN apt-get update \
-    && apt-get -y install software-properties-common \
+    && apt-get -y install software-properties-common ca-certificates wget \
     && add-apt-repository multiverse \
     && add-apt-repository ppa:transmissionbt/ppa \
+    && wget -O - https://swupdate.openvpn.net/repos/repo-public.gpg|apt-key add - \
+    && echo "deb http://swupdate.openvpn.net/apt trusty main" > /etc/apt/sources.list.d/swupdate.openvpn.net.list \
     && apt-get update \
     && apt-get install -y transmission-cli transmission-common transmission-daemon \
     && apt-get install -y openvpn curl rar unrar zip unzip \
